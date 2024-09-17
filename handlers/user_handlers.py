@@ -119,7 +119,7 @@ async def process_backward_press(callback: CallbackQuery):
 # с номером текущей страницы и добавлять текущую страницу в закладки
 @router.callback_query(lambda x: '/' in x.data and x.data.replace('/', '').isdigit())
 async def process_page_press(callback: CallbackQuery):
-    user_db[callback.from_user.id]['page'].add(
+    user_db[callback.from_user.id]['bookmarks'].add(
         user_db[callback.from_user.id]['page']
     )
     await callback.answer('Страница добавлена в закладки!')
@@ -144,11 +144,11 @@ async def process_bookmark_press(callback: CallbackQuery):
 # Этот хэндлер будет срабатывать на нажатие инлайн-кнопки
 # "редактировать" под списком закладок
 @router.callback_query(F.data == 'edit_bookmarks')
-async def process_edit_process(callback: CallbackQuery):
+async def process_edit_press(callback: CallbackQuery):
     await callback.message.edit_text(
         text=LEXICON[callback.data],
         reply_markup=create_edit_keyboard(
-            *user_db[callback.from_user.id]['bookmarks']
+            *user_db[callback.from_user.id]["bookmarks"]
         )
     )
 
