@@ -1,21 +1,13 @@
-import os
-import sys
-
-BOOK_PATH = 'book/book.txt'
-PAGE_SIZE = 1050
-
-book: dict[int:str] = {}
+from aiogram.filters import BaseFilter
+from aiogram.types import CallbackQuery
 
 
-# Функция, возвращающая строку с текстом страницы и ее размер
-def _get_part_text(text: str, start: int, size: int) -> tuple[str, int]:
-    pass
+class IsDigitCallbackData(BaseFilter):
+    async def __call__(self, callback: CallbackQuery):
+        return callback.data.isdigit()
 
 
-# Функция, формирующая словарь книги
-def prepare_book(path: str) -> None:
-    pass
+class IsDelBookmarkCallbackData(BaseFilter):
+    async def __call__(self, callback: CallbackQuery):
+        return callback.data.endswith('del') and callback.data[:-3].isdigit()
 
-
-# Вызов функции prepare_book для подготовки книги из текстового файла
-prepare_book(os.path.join(sys.path[0], os.path.normpath(BOOK_PATH)))
